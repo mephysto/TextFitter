@@ -22,6 +22,7 @@ const TextFitter = (element, options) => {
     let result = false,
       maxHeight = 0,
       maxWidth = 0,
+      debug = options.debug || false
       parentElComputedStyles = window.getComputedStyle(_targetEl.parentElement),
       elComputedStyles = window.getComputedStyle(_targetEl),
       padding = {
@@ -34,33 +35,34 @@ const TextFitter = (element, options) => {
     // figure out the bounding box for the target el.
     maxHeight = (isNaN(parseInt(parentElComputedStyles.maxHeight)) ? parseInt(parentElComputedStyles.height) : parseInt(parentElComputedStyles.maxHeight)) - padding.top - padding.bottom;
     maxWidth = (isNaN(parseInt(parentElComputedStyles.maxWidth)) ? parseInt(parentElComputedStyles.width) : parseInt(parentElComputedStyles.maxWidth)) - padding.left - padding.right;
-    // save some variables into the el, for live debugging  
-    _targetEl.dataset.maxHeight = maxHeight;
-    _targetEl.dataset.maxWidth = maxWidth;
-    _targetEl.dataset.offsetWidth = _targetEl.offsetWidth;
-    _targetEl.dataset.offsetHeight = _targetEl.offsetHeight;
-
-    // console.info('================================================================================================');
-    // console.info('maxWidth:', maxWidth, ", maxHeight:", maxHeight);
-    // console.info('_targetEl.offsetWidth:', _targetEl.offsetWidth, ', _targetEl.offsetHeight:', _targetEl.offsetHeight);
-    // console.info('_targetEl.parentElement.offsetWidth:', _targetEl.parentElement.offsetWidth, '_targetEl.parentElement.offsetHeight:', _targetEl.parentElement.offsetHeight);
-
+    if (debug) {
+      // save some variables into the el  
+      _targetEl.dataset.maxHeight = maxHeight;
+      _targetEl.dataset.maxWidth = maxWidth;
+      _targetEl.dataset.offsetWidth = _targetEl.offsetWidth;
+      _targetEl.dataset.offsetHeight = _targetEl.offsetHeight;
+      
+      console.info('================================================================================================');
+      console.info('maxWidth:', maxWidth, ", maxHeight:", maxHeight);
+      console.info('_targetEl.offsetWidth:', _targetEl.offsetWidth, ', _targetEl.offsetHeight:', _targetEl.offsetHeight);
+      console.info('_targetEl.parentElement.offsetWidth:', _targetEl.parentElement.offsetWidth, '_targetEl.parentElement.offsetHeight:', _targetEl.parentElement.offsetHeight);
+    }
     // return true if the target el is bigger than the parent el
     if (_targetEl.offsetHeight >= _targetEl.parentElement.offsetHeight) {
-      // console.info('> target el is higher than parents height');
+      if (debug) { console.info('> target el is higher than parents height') };
       result = true;
     }
     if (_targetEl.offsetWidth > _targetEl.parentElement.offsetWidth) {
-      // console.info('> target el is wider than parents width');
+      if (debug) { console.info('> target el is wider than parents width')};
       result = true;
     }
     // return true if target el is bigger than calculated bounds
     if (_targetEl.offsetHeight > maxHeight) {
-      // console.info('> target el is higher than parents calculated max height');
+      if (debug) { console.info('> target el is higher than parents calculated max height')};
       result = true;
     }
     if (_targetEl.offsetWidth > maxWidth) {
-      // console.info('> target el is wider than parents calculated max width');
+      if (debug) { console.info('> target el is wider than parents calculated max width')};
       result = true;
     }
     return result;
@@ -70,6 +72,7 @@ const TextFitter = (element, options) => {
       maxFontSize = options.maxFontsize || 24,
       velocity = options.velocity || 1,
       onReadyClass = options.onReadyClass || false,
+      debug = options.debug || false,
       computedStyles = window.getComputedStyle(targetEl),
       parentElComputedStyles = window.getComputedStyle(targetEl.parentElement);
     // We'll need to change some CSS values, so store the original values.
