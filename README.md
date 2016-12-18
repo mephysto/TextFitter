@@ -13,7 +13,7 @@ or grows until it hits the sides.
  or a max-width/max-height set in CSS.
 
 ```html
-<script src="text-resizer.js"></script>
+<script src="TextFitter.js"></script>
 ```
 
 
