@@ -22,7 +22,7 @@ const TextFitter = (element, options) => {
     let result = false,
       maxHeight = 0,
       maxWidth = 0,
-      debug = options.debug || false
+      debug = options.debug || false,
       parentElComputedStyles = window.getComputedStyle(_targetEl.parentElement),
       elComputedStyles = window.getComputedStyle(_targetEl),
       padding = {
